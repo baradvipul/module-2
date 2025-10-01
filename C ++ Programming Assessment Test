@@ -1,0 +1,68 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+class Event {
+private:
+    string eventName;
+    string customerName;
+    int guests;
+    int minutes;
+    int servers;
+    double costForServers;
+    double costForFood;
+    double averageCostPerPerson;
+    double totalCost;
+    double depositNeeded;
+
+    const double COST_PER_HOUR_PER_SERVER = 18.50;
+    const double COST_PER_MINUTE_PER_SERVER = COST_PER_HOUR_PER_SERVER / 60.0;
+    const double COST_OF_DINNER = 20.70;
+
+public:
+    // Input method
+    void getDetails() {
+        cout << "***** Event Management System *****\n";
+        cout << "Enter the name of the event: ";
+        cin >> eventName;
+        cin.ignore(); // clear buffer
+        cout << "Enter the customer's first and last name: ";
+        getline(cin, customerName);
+        cout << "Enter the number of guests: ";
+        cin >> guests;
+        cout << "Enter the number of minutes in the event: ";
+        cin >> minutes;
+    }
+
+    // Processing method
+    void calculateCosts() {
+        servers = guests / 20 + 1;
+        costForServers = (minutes * COST_PER_MINUTE_PER_SERVER) * servers;
+        costForFood = guests * COST_OF_DINNER;
+        averageCostPerPerson = costForFood / guests;
+        totalCost = costForFood + costForServers;
+        depositNeeded = totalCost * 0.25;
+    }
+
+    // Output method
+    void printEstimate() {
+        cout << "\n================ Event estimate for : " << customerName << " ================\n";
+        cout << "Number Of Servers: " << servers << endl;
+        cout << fixed << setprecision(2);
+        cout << "The Cost for Servers: " << costForServers << endl;
+        cout << "The Cost for Food is: " << costForFood << endl;
+        cout << "Average Cost Per Person: " << averageCostPerPerson << endl;
+        cout << "\nTotal cost is: " << totalCost << endl;
+        cout << "Please deposit a 25% deposit to reserve the event\n";
+        cout << "The deposit needed is: " << depositNeeded << endl;
+    }
+};
+
+int main() {
+    Event e;
+    e.getDetails();
+    e.calculateCosts();
+    e.printEstimate();
+    return 0;
+}
